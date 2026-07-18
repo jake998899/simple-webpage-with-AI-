@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <!-- Basic document metadata -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A simple, clean and responsive starter website built with plain HTML, CSS and JavaScript." />
+  <title>SimpleSite — Clean Starter</title>
+
+  <!-- Stylesheet: relative path, lives next to index.html -->
+  <link rel="stylesheet" href="./index.css" />
+</head>
+<body>
+  <!-- ============================= -->
+  <!--          HEADER / NAV         -->
+  <!-- ============================= -->
+  <header class="site-header" id="top">
+    <nav class="navbar" aria-label="Main navigation">
+      <!-- Brand / logo (clicking it scrolls back to top) -->
+      <a href="#top" class="brand" aria-label="SimpleSite home">
+        <span class="brand-mark">◆</span> SimpleSite
+      </a>
+
+      <!-- Navigation links. Toggled open/closed on small screens. -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#demo" class="nav-link">Demo</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+
+      <!-- Right-side controls: theme toggle + mobile menu button -->
+      <div class="nav-actions">
+        <!-- Theme toggle button. aria-pressed is updated by JS. -->
+        <button id="themeToggle" class="icon-btn" type="button"
+                aria-label="Toggle dark mode" aria-pressed="false" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+
+        <!-- Hamburger menu (hidden on desktop via CSS) -->
+        <button id="menuToggle" class="icon-btn menu-btn" type="button"
+                aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ============================= -->
+  <!--            MAIN               -->
+  <!-- ============================= -->
+  <main class="container">
+    <!-- Hero section: the first thing visitors see -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <h1 id="heroTitle" class="hero-title">
+        Build clean websites, <span class="accent">simply.</span>
+      </h1>
+      <p class="hero-subtitle">
+        A minimal, responsive starter built with semantic HTML,
+        modern CSS and vanilla JavaScript — no frameworks required.
+      </p>
+      <div class="hero-actions">
+        <a href="#features" class="btn btn-primary">Get Started</a>
+        <a href="#demo" class="btn btn-ghost">Try the Demo</a>
+      </div>
+    </section>
+
+    <!-- Features section: a responsive grid of cards -->
+    <section id="features" class="section" aria-labelledby="featuresTitle">
+      <h2 id="featuresTitle" class="section-title">What's included</h2>
+      <p class="section-lead">Everything you need for a clean, modern starting point.</p>
+
+      <div class="grid">
+        <!-- Each card is an <article> for semantic grouping -->
+        <!-- .reveal adds a fade/slide-in as the card scrolls into view -->
+        <article class="card reveal">
+          <div class="card-icon" aria-hidden="true">📱</div>
+          <h3 class="card-title">Fully Responsive</h3>
+          <p class="card-text">Looks great on phones, tablets and desktops thanks to Flexbox and CSS Grid.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon" aria-hidden="true">🎨</div>
+          <h3 class="card-title">Themed & Modern</h3>
+          <p class="card-text">Light and dark modes powered by CSS custom properties and a sprinkle of JS.</p>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-icon" aria-hidden="true">⚡</div>
+          <h3 class="card-title">Zero Dependencies</h3>
+          <p class="card-text">No build tools, no frameworks. Just open <code>index.html</code> in your browser.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Demo section: interactive element wired up in app.js -->
+    <section id="demo" class="section section-alt" aria-labelledby="demoTitle">
+      <h2 id="demoTitle" class="section-title">Interactive demo</h2>
+      <p class="section-lead">A tiny bit of JavaScript in action.</p>
+
+      <div class="demo-box">
+        <p class="counter-label">Button clicks</p>
+        <output id="counterOutput" class="counter-value" aria-live="polite">0</output>
+        <div class="demo-actions">
+          <!-- type="button" prevents any accidental form submission -->
+          <button id="countBtn" class="btn btn-primary" type="button">Click me</button>
+          <button id="resetBtn" class="btn btn-ghost" type="button">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- About section -->
+    <section id="about" class="section" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle" class="section-title">About this project</h2>
+      <p class="prose">
+        This page demonstrates a tidy separation of concerns: HTML describes the
+        structure, CSS handles the presentation, and JavaScript adds just enough
+        behaviour. Feel free to use it as a starting point for your own ideas.
+      </p>
+    </section>
+  </main>
+
+  <!-- ============================= -->
+  <!--            FOOTER             -->
+  <!-- ============================= -->
+  <footer id="contact" class="site-footer">
+    <div class="footer-inner container">
+      <p class="footer-text">© <span id="year"></span> SimpleSite. Built with HTML, CSS &amp; JS.</p>
+      <ul class="footer-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#demo" class="nav-link">Demo</a></li>
+        <li><a href="#top" class="nav-link">Back to top ↑</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- Script: deferred so it runs after the HTML is parsed.
+       Relative path, sits next to index.html. -->
+  <script src="./app.js" defer></script>
+</body>
+</html>

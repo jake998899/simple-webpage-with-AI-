@@ -1,0 +1,430 @@
+/* ============================================================
+   SimpleSite — Stylesheet
+   ------------------------------------------------------------
+   Sections:
+     1. Design tokens (CSS custom properties / theme variables)
+     2. Base & reset
+     3. Layout helpers (container, section)
+     4. Buttons
+     5. Header & navigation
+     6. Hero
+     7. Cards grid
+     8. Demo box
+     9. Footer
+    10. Animations
+    11. Responsive (mobile)
+   ============================================================ */
+
+
+/* ============================================================
+   1. DESIGN TOKENS
+   ------------------------------------------------------------
+   We define colors, spacing and shapes as variables on :root
+   so the whole site can be re-themed in one place.
+   Switching [data-theme="dark"] on <html> overrides these.
+   ============================================================ */
+:root {
+  /* Brand + neutral palette (light theme defaults) */
+  --color-bg: #f7f8fb;
+  --color-surface: #ffffff;
+  --color-text: #1f2430;
+  --color-muted: #5b6472;
+  --color-border: #e3e7ef;
+
+  --color-primary: #4f6bff;
+  --color-primary-contrast: #ffffff;
+  --color-accent: #ff7a59;
+
+  /* Typography */
+  --font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-base: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: clamp(2rem, 5vw, 3rem); /* fluid heading size */
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+
+  /* Shape + effects */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(20, 25, 40, 0.06);
+  --shadow-md: 0 8px 24px rgba(20, 25, 40, 0.10);
+  --transition: 200ms ease;
+
+  --header-height: 64px;
+}
+
+/* Dark theme overrides — applied when <html data-theme="dark"> */
+[data-theme="dark"] {
+  --color-bg: #14171f;
+  --color-surface: #1d212b;
+  --color-text: #e8ebf2;
+  --color-muted: #9aa3b2;
+  --color-border: #2c313d;
+
+  --color-primary: #7c92ff;
+  --color-accent: #ff9275;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+
+/* ============================================================
+   2. BASE & RESET
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; } /* smooth anchor scrolling */
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  /* Leave room for the fixed header so content isn't hidden */
+  padding-top: var(--header-height);
+  -webkit-font-smoothing: antialiased;
+  /* Smooth color transitions when toggling theme */
+  transition: background-color var(--transition), color var(--transition);
+}
+
+h1, h2, h3 { line-height: 1.2; margin: 0 0 var(--space-2); }
+
+p { margin: 0 0 var(--space-3); }
+
+a { color: var(--color-primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+  background: var(--color-border);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.9em;
+}
+
+
+/* ============================================================
+   3. LAYOUT HELPERS
+   ============================================================ */
+/* Centers content and adds horizontal padding */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-inline: var(--space-3);
+}
+
+/* Vertical rhythm for each major section */
+.section { padding-block: var(--space-6); }
+.section-alt { background: var(--color-surface); } /* subtle band */
+
+.section-title {
+  font-size: var(--fs-xl);
+  text-align: center;
+}
+.section-lead {
+  color: var(--color-muted);
+  text-align: center;
+  max-width: 42ch;
+  margin: 0 auto var(--space-5);
+}
+.prose { max-width: 65ch; }
+
+
+/* ============================================================
+   4. BUTTONS
+   ============================================================ */
+.btn {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  padding: 0.7rem 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform var(--transition), background-color var(--transition),
+              box-shadow var(--transition), color var(--transition);
+}
+.btn:hover { text-decoration: none; transform: translateY(-2px); }
+.btn:active { transform: translateY(0); } /* press feedback */
+.btn:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover { box-shadow: var(--shadow-md); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+.btn-ghost:hover { border-color: var(--color-primary); color: var(--color-primary); }
+
+
+/* ============================================================
+   5. HEADER & NAVIGATION
+   ============================================================ */
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-height);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+  z-index: 100;
+}
+
+.navbar {
+  height: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-inline: var(--space-3);
+  display: flex;            /* Flexbox layout */
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.brand {
+  font-weight: 800;
+  font-size: var(--fs-lg);
+  color: var(--color-text);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.brand:hover { text-decoration: none; }
+.brand-mark { color: var(--color-primary); }
+
+/* Horizontal list of links on desktop */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: var(--space-4);
+  margin: 0; padding: 0;
+}
+.nav-link { color: var(--color-muted); font-weight: 500; }
+.nav-link:hover { color: var(--color-text); text-decoration: none; }
+
+.nav-actions { display: flex; align-items: center; gap: var(--space-2); }
+
+/* Round icon buttons (theme toggle + hamburger) */
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; height: 40px;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background-color var(--transition), border-color var(--transition);
+}
+.icon-btn:hover { background: var(--color-bg); border-color: var(--color-primary); }
+.icon-btn:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+
+/* Hamburger bars */
+.menu-btn { flex-direction: column; gap: 4px; }
+.menu-btn .bar {
+  width: 18px; height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform var(--transition), opacity var(--transition);
+}
+/* Animate hamburger into an "X" when the menu is open */
+.menu-btn.is-open .bar:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.menu-btn.is-open .bar:nth-child(2) { opacity: 0; }
+.menu-btn.is-open .bar:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+
+/* ============================================================
+   6. HERO
+   ============================================================ */
+.hero {
+  text-align: center;
+  padding-block: var(--space-6) var(--space-5);
+}
+.hero-title { font-size: var(--fs-2xl); }
+.hero-title .accent { color: var(--color-accent); }
+
+.hero-subtitle {
+  color: var(--color-muted);
+  max-width: 50ch;
+  margin-inline: auto;
+  font-size: var(--fs-lg);
+}
+.hero-actions {
+  margin-top: var(--space-4);
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   7. CARDS GRID
+   ============================================================ */
+.grid {
+  display: grid;
+  /* Responsive grid: fits as many 260px columns as will fit */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-4);
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+.card-icon { font-size: 2rem; margin-bottom: var(--space-2); }
+.card-title { font-size: var(--fs-lg); }
+.card-text { color: var(--color-muted); margin: 0; }
+
+
+/* ============================================================
+   8. DEMO BOX
+   ============================================================ */
+.demo-box {
+  max-width: 420px;
+  margin-inline: auto;
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+.counter-label { color: var(--color-muted); margin-bottom: var(--space-1); }
+.counter-value {
+  display: block;
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  /* Subtle pop animation is added via .bump class from JS */
+}
+.counter-value.bump { animation: bump 250ms ease; }
+.demo-actions {
+  margin-top: var(--space-3);
+  display: flex;
+  gap: var(--space-2);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+
+/* ============================================================
+   9. FOOTER
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding-block: var(--space-4);
+  margin-top: var(--space-6);
+}
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+.footer-text { margin: 0; color: var(--color-muted); }
+.footer-links {
+  list-style: none;
+  display: flex;
+  gap: var(--space-3);
+  margin: 0; padding: 0;
+}
+
+
+/* ============================================================
+   10. ANIMATIONS
+   ============================================================ */
+/* Fade/slide-in used by the IntersectionObserver in app.js */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+/* Quick "pop" for the counter when it changes */
+@keyframes bump {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+
+/* ============================================================
+   11. RESPONSIVE — mobile styles (under 720px wide)
+   ============================================================ */
+@media (max-width: 720px) {
+  /* Hide the hamburger button is no longer needed on desktop;
+     on mobile it is shown (see rule below). By default the links
+     collapse into a dropdown panel. */
+  .menu-btn { display: inline-flex; }
+
+  /* Collapsed nav: hidden off-screen until .is-open is added */
+  .nav-links {
+    position: absolute;
+    top: var(--header-height);
+    left: 0; right: 0;
+    flex-direction: column;
+    gap: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    /* Hidden state */
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height var(--transition), opacity var(--transition),
+                padding var(--transition);
+  }
+  /* Open state */
+  .nav-links.is-open {
+    max-height: 320px;
+    opacity: 1;
+    padding-block: var(--space-2);
+  }
+  .nav-links li { width: 100%; }
+  .nav-link { display: block; padding: var(--space-3); }
+  .nav-link:hover { background: var(--color-bg); }
+
+  .footer-inner { justify-content: center; text-align: center; }
+}
+
+/* On wider screens, hide the hamburger entirely (links are inline) */
+@media (min-width: 721px) {
+  .menu-btn { display: none; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  html { scroll-behavior: auto; }
+}
